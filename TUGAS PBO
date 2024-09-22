@@ -1,0 +1,196 @@
+using System;
+using System.Collections.Generic;
+
+class Hewan
+{
+    public string nama;
+    public int umur;
+
+    public Hewan(string n, int u)
+    {
+        nama = n;
+        umur = u;
+    }
+
+    public virtual void Suara()
+    {
+        Console.WriteLine("Hewan ini bersuara");
+    }
+    public virtual void InfoHewan()
+    {
+        Console.WriteLine($"Nama: {nama}, Umur: {umur} tahun");
+    }
+
+    public virtual void Info()
+    {
+        InfoHewan();
+    }
+}
+
+class Mamalia : Hewan
+{
+    public int jumlahKaki;
+
+    public Mamalia(string n, int u, int jk) : base(n, u)
+    {
+        jumlahKaki = jk;
+    }
+
+    public override void InfoHewan()
+    {
+        base.InfoHewan();
+        Console.WriteLine($", Jumlah Kaki: {jumlahKaki}");
+    }
+
+    public override void Info()
+    {
+        InfoHewan();
+    }
+}
+
+class Reptil : Hewan
+{
+    public double panjangTubuh;
+
+    public Reptil(string n, int u, double pt) : base(n, u)
+    {
+        panjangTubuh = pt;
+    }
+
+    public override void InfoHewan()
+    {
+        base.InfoHewan();
+        Console.WriteLine($", Panjang Tubuh: {panjangTubuh} meter");
+    }
+
+    public override void Info()
+    {
+        InfoHewan();
+    }
+}
+
+class Singa : Mamalia
+{
+    public Singa(string n, int u) : base(n, u, 4) { }
+
+    public override void Suara()
+    {
+        Console.WriteLine("Singa mengaum");
+    }
+
+    public void Mengaum()
+    {
+        Console.WriteLine("Singa ini mengaum dengan keras!");
+    }
+
+    public override void Info()
+    {
+        base.Info();
+        Console.WriteLine("Ini adalah Singa.");
+    }
+}
+
+class Gajah : Mamalia
+{
+    public Gajah(string n, int u) : base(n, u, 4) { }
+
+    public override void Suara()
+    {
+        Console.WriteLine("Gajah mengeluarkan suara trompet");
+    }
+
+    public override void Info()
+    {
+        base.Info();
+        Console.WriteLine("Ini adalah Gajah.");
+    }
+}
+
+class Ular : Reptil
+{
+    public Ular(string n, int u, double pt) : base(n, u, pt) { }
+
+    public override void Suara()
+    {
+        Console.WriteLine("Ular mendesis");
+    }
+
+    public void Merayap()
+    {
+        Console.WriteLine("Ular ini merayap dengan lincah.");
+    }
+
+    public override void Info()
+    {
+        base.Info();
+        Console.WriteLine("Ini adalah Ular.");
+    }
+}
+
+class Buaya : Reptil
+{
+    public Buaya(string n, int u, double pt) : base(n, u, pt) { }
+
+    public override void Suara()
+    {
+        Console.WriteLine("Buaya menggeram");
+    }
+
+    public override void Info()
+    {
+        base.Info();
+        Console.WriteLine("Ini adalah Buaya.");
+    }
+}
+
+class KebunBinatang
+{
+    private List<Hewan> koleksiHewan = new List<Hewan>();
+
+    public void TambahHewan(Hewan hewan)
+    {
+        koleksiHewan.Add(hewan);
+    }
+
+    public void DaftarHewan()
+    {
+        for (int i = 0; i < koleksiHewan.Count; i++)
+        {
+            koleksiHewan[i].Info();
+            koleksiHewan[i].Suara(); // Polymorphism
+            Console.WriteLine();
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        KebunBinatang kebunBinatang = new KebunBinatang();
+
+        Singa singa = new Singa("Singa Jawa", 5);
+        Gajah gajah = new Gajah("Gajah Papua", 10);
+        Ular ular = new Ular("Ular Black Mamba", 3, 5.5);
+        Buaya buaya = new Buaya("Buaya Darat", 7, 4.2);
+
+        kebunBinatang.TambahHewan(singa);
+        kebunBinatang.TambahHewan(gajah);
+        kebunBinatang.TambahHewan(ular);
+        kebunBinatang.TambahHewan(buaya);
+
+        kebunBinatang.DaftarHewan();
+
+        Console.WriteLine("Penggunaan Polymorphismnya");
+        Hewan[] beberapaHewan = { singa, gajah, ular, buaya };
+        for (int i = 0; i < beberapaHewan.Length; i++)
+        {
+            Console.WriteLine($"{beberapaHewan[i].nama}: ");
+            beberapaHewan[i].Suara();
+        }
+
+        Console.WriteLine();
+        singa.Mengaum();
+        ular.Merayap();
+    }
+}
